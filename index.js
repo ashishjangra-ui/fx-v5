@@ -19,8 +19,8 @@ const CURRENCY_COUNTRY = {
   UYU:"UY",UZS:"UZ",VND:"VN",WST:"WS",XAF:"CM",XCD:"AG",XOF:"SN",ZAR:"ZA",ZMW:"ZM"
 };
 
-/* ---------- Flags (flagpedia, 580px originals rendered small) ---------- */
-const FLAG_BASE = "https://flagpedia.net/data/org/w580/";
+ /* ---------- Flags (flagcdn.com – 320px webp, svg fallback) ---------- */
+const FLAG_BASE = "https://flagcdn.com/w320/";
 
 function applyFlag(img, code) {
   const c = CURRENCY_COUNTRY[code];
@@ -40,7 +40,7 @@ function applyFlag(img, code) {
     }
   };
   delete img.dataset.fallback;
-  img.src = "https://flagcdn.com/w320/" + cc + ".webp";
+  img.src = FLAG_BASE + cc + ".webp";
 }
 
 function flagImg(code, lazy) {
