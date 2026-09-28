@@ -24,14 +24,23 @@ const FLAG_BASE = "https://flagpedia.net/data/org/w580/";
 
 function applyFlag(img, code) {
   const c = CURRENCY_COUNTRY[code];
-  // clear Webflow's own responsive attributes so they don't override our src
   img.removeAttribute("srcset");
   img.removeAttribute("sizes");
   img.alt = "";
-  img.onerror = () => { img.style.visibility = "hidden"; };
   if (!c) { img.style.visibility = "hidden"; return; }
+  const cc = c.toLowerCase();
   img.style.visibility = "";
-  img.src = FLAG_BASE + c.toLowerCase() + ".webp";
+  img.onerror = () => {
+    // 1st failure: try the SVG version; 2nd failure: hide
+    if (!img.dataset.fallback) {
+      img.dataset.fallback = "1";
+      img.src = "https://flagcdn.com/" + cc + ".svg";
+    } else {
+      img.style.visibility = "hidden";
+    }
+  };
+  delete img.dataset.fallback;
+  img.src = "https://flagcdn.com/w320/" + cc + ".webp";
 }
 
 function flagImg(code, lazy) {
